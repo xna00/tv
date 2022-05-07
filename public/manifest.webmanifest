@@ -1,0 +1,16 @@
+{
+  "name": "TV",
+  "short_name": "TV",
+  "description": "A television",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "32x32",
+      "type": "image/svg"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "darkgray",
+  "background_color": "#B12A34"
+}

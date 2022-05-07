@@ -1,0 +1,3 @@
+[submodule "resource/m3u"]
+	path = resource/m3u
+	url = https://github.com/imDazui/Tvlist-awesome-m3u-m3u8.git

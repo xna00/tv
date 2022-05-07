@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+li {
+  list-style-type: none;
+}
+
+#app {
+  background: darkgray;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@media (max-width: 500px) {
+  #app {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  }
+  #app > aside {
+    max-width: 100%;
+    flex-shrink: 1;
+  }
+  #app > main {
+    flex-shrink: 0;
+  }
+}
+.video-js {
+  /* width: 100% !important; */
+  /* height: 80% !important; */
+}
