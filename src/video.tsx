@@ -60,19 +60,21 @@ export function Video(
           //   console.log("loaded", args);
           const details = args[1].details;
           //   console.log(details.fragments.map((f) => f.url));
-          caches
-            .open("video")
-            .then((cache) => cache.keys())
-            .then((rs) => rs.map((r) => r.url))
-            .then((us) => {
-              //   console.log("us", us);
-              details.fragments.forEach((f) => {
-                ![...us, ...pendingRequests.current].includes(f.url) &&
-                  fetch(f.url).catch((e) => {
-                    console.log(f.url, e, "fetch error");
-                  });
+          setTimeout(() => {
+            caches
+              .open("video")
+              .then((cache) => cache.keys())
+              .then((rs) => rs.map((r) => r.url))
+              .then((us) => {
+                //   console.log("us", us);
+                details.fragments.forEach((f) => {
+                  ![...us, ...pendingRequests.current].includes(f.url) &&
+                    fetch(f.url).catch((e) => {
+                      console.log(f.url, e, "fetch error");
+                    });
+                });
               });
-            });
+          }, 500);
         });
         !hls.media && hls.attachMedia(video);
         hls.loadSource(src);
@@ -100,8 +102,14 @@ export function Video(
 
   useEffect(() => {
     navigator.serviceWorker?.addEventListener("message", (event) => {
-      pendingRequests.current = event.data.pendingRequests ?? [];
+      console.log("video data", event.data);
+      if (event.data.pendingRequests) {
+        console.log("video", event);
+        pendingRequests.current = event.data.pendingRequests ?? [];
+        console.log(pendingRequests.current);
+      }
     });
+    // console.log(chrome, caches);
   }, []);
 
   return (
