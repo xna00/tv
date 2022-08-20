@@ -1,0 +1,17 @@
+{
+    "name": "tv-cors",
+    "version": "1.0",
+    "manifest_version": 3,
+    "declarative_net_request": {
+      "rule_resources": [
+        {
+          "id": "tv_cors_ruleset_1",
+          "enabled": true,
+          "path": "rules_1.json"
+        }
+      ]
+    },
+    "action": {},
+    "permissions": ["declarativeNetRequest", "declarativeNetRequestFeedback"],
+    "host_permissions": ["*://*/*"]
+  }
