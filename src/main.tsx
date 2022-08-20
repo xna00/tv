@@ -9,25 +9,7 @@ if ("serviceWorker" in navigator) {
       scope: "/",
     })
     .then(() => {
-      navigator.serviceWorker?.addEventListener("message", (event) => {
-        console.log(event);
-        if (event.data.callbackId) {
-          (window as any).chrome.runtime.sendMessage(
-            "fpfaacmokfkaaboikempjbpdeojkafcb",
-            event.data,
-            (res: any) => {
-              navigator.serviceWorker?.controller?.postMessage({
-                ...res,
-                ...event.data,
-              });
-            }
-          );
-        }
-      });
-
-      window.addEventListener("message", (e) => {
-        console.log(e);
-      });
+      console.log("registered");
     });
 }
 

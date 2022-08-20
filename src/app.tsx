@@ -20,9 +20,6 @@ export function App() {
     fetch(import.meta.env.BASE_URL + "m3u.json")
       .then((r) => r.json())
       .then((r: Channels) => {
-        Object.entries(r).forEach(([k, v]) => {
-          r[k] = v.map((a) => `/proxy/${a}`);
-        });
         setChannels(r);
         const handleHashChange = () => {
           const name = parseName();
