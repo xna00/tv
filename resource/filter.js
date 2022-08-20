@@ -65,7 +65,7 @@ Promise.allSettled(all.splice(0, 1000).map(handler)).then(() => {
   for (const k in data) {
     data[k] = Array.from(data[k]);
   }
-  fs.writeFileSync("../src/assets/m3u.json", JSON.stringify(data));
+  fs.writeFileSync("../public/m3u.json", JSON.stringify(data));
   console.log("data", data);
   console.log(Object.keys(data).length, Object.values(data).flat().length);
 });
