@@ -135,19 +135,25 @@ export function Video(
           } justify-between`}
           onClick={() => setShowExtra(false)}
         >
-          <button onClick={() => (video.paused ? video.play() : video.pause())}>
-            {video.paused ? "▶️" : "⏸"}
-          </button>
+          <button
+            class={`text-white cursor-pointer text-2xl ${
+              video.paused ? "i-tabler-player-play" : "i-tabler-player-pause"
+            }`}
+            onClick={() => (video.paused ? video.play() : video.pause())}
+          ></button>
           {control}
           <button
+            class={`text-white cursor-pointer text-2xl ${
+              document.fullscreenElement
+                ? "i-tabler-arrows-minimize"
+                : "i-tabler-arrows-maximize"
+            }`}
             onClick={() =>
               document.fullscreenElement
                 ? document.exitFullscreen()
                 : wrapperRef.current?.requestFullscreen()
             }
-          >
-            {document.fullscreenElement ? "🄴" : "🄵"}
-          </button>
+          ></button>
         </div>
       ) : null}
     </div>
