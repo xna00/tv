@@ -31,12 +31,12 @@ if ("serviceWorker" in navigator) {
     });
 }
 
-if (window.chrome?.runtime?.sendMessage) {
-  window.chrome.runtime.sendMessage(
+if ((window as any).chrome?.runtime?.sendMessage) {
+  (window as any).chrome.runtime.sendMessage(
     "pfjfdpobjbkelgmnpgfncoigidcpdnik",
     {},
-    (arg) => {
-      if (chrome.runtime.lastError) {
+    (arg: any) => {
+      if ((window as any).chrome.runtime.lastError) {
         console.log("no ext detected!");
       }
       console.log(arg);
