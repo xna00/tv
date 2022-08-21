@@ -13,7 +13,7 @@ if ("serviceWorker" in navigator) {
         console.log(event);
         if (event.data.callbackId) {
           (window as any).chrome.runtime.sendMessage(
-            "fpfaacmokfkaaboikempjbpdeojkafcb",
+            "pfjfdpobjbkelgmnpgfncoigidcpdnik",
             event.data,
             (res: any) => {
               navigator.serviceWorker?.controller?.postMessage({
