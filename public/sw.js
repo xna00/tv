@@ -13,12 +13,7 @@ const extProxyFetch = (request) => {
       if (!first) resolve();
       else {
         callbackMap.set(callbackId, (res) => {
-          let binary_string = atob(res.body);
-          let bytes = new Uint8Array(binary_string.length);
-          for (let i = 0; i < binary_string.length; i++) {
-            bytes[i] = binary_string.charCodeAt(i);
-          }
-          const r = new Response(bytes.buffer, res.init);
+          const r = new Response(new Uint8Array(res.body).buffer, res.init);
           resolve(r);
         });
         first.postMessage({
@@ -84,25 +79,30 @@ self.addEventListener("fetch", (event) => {
                   }
                 )
           );
-          res.finally(() => {
-            caches.open(videoCache).then((cache) => {
-              cache
-                .keys()
-                .then((rs) =>
-                  rs
-                    .map((r) => r.url)
-                    .forEach((u) => !lru.includes(u) && cache.delete(u))
+          res
+            .finally(() => {
+              caches.open(videoCache).then((cache) => {
+                cache
+                  .keys()
+                  .then((rs) =>
+                    Promise.all(
+                      rs
+                        .map((r) => r.url)
+                        .map((u) => !lru.includes(u) && cache.delete(u))
+                    )
+                  );
+              });
+            })
+            .then(() => {
+              pendingRequests.delete(url);
+              self.clients.matchAll().then((all) => {
+                all.map((client) =>
+                  client.postMessage({
+                    pendingRequests: Array.from(pendingRequests.keys()),
+                  })
                 );
+              });
             });
-            pendingRequests.delete(url);
-            self.clients.matchAll().then((all) => {
-              all.map((client) =>
-                client.postMessage({
-                  pendingRequests: Array.from(pendingRequests.keys()),
-                })
-              );
-            });
-          });
           pendingRequests.set(url, res);
           console.log("set pending");
           self.clients.matchAll().then((all) =>

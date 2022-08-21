@@ -39,7 +39,7 @@ export function Video(
   const timer = useRef<number>();
   const hlsRef = useRef<Hls>();
   const pendingRequests = useRef<string[]>([]);
-  console.log(hlsRef.current);
+  console.log("current", hlsRef.current);
 
   const showControler = () => {
     setShowExtra(true);
@@ -139,7 +139,11 @@ export function Video(
             class={`text-white cursor-pointer text-2xl ${
               video.paused ? "i-tabler-player-play" : "i-tabler-player-pause"
             }`}
-            onClick={() => (video.paused ? video.play() : video.pause())}
+            onClick={() =>
+              video.paused
+                ? (video.play(), hlsRef.current?.startLoad())
+                : (video.pause(), hlsRef.current?.stopLoad())
+            }
           ></button>
           {control}
           <button

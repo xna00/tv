@@ -16,15 +16,8 @@ chrome.runtime.onMessageExternal.addListener(
           ])
         )
         .then(([res, init]) => {
-          console.log(res);
-          let binary = "";
-          let bytes = new Uint8Array(res);
-          for (let i = 0; i < bytes.byteLength; i++) {
-            binary += String.fromCharCode(bytes[i]);
-          }
-          new Response();
           sendResponse({
-            body: btoa(binary),
+            body: [...new Uint8Array(res)],
             init,
           });
         });
