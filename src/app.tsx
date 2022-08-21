@@ -109,6 +109,10 @@ export function App() {
         您没有安装插件，请{" "}
         <button
           onClick={async () => {
+            if (!(window as any).showDirectoryPicker) {
+              window.open(import.meta.env.BASE_URL + `ext.zip`);
+              return;
+            }
             const dirHandle = await (window as any).showDirectoryPicker({
               mode: "readwrite",
             });
