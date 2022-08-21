@@ -21,7 +21,7 @@
   "externally_connectable": {
     "matches": [
       "http://localhost/*",
-      "https://boisterous-hummingbird-13a395.netlify.app/*"
+      "https://simple-tv.netlify.app/*"
     ]
   }
 }
