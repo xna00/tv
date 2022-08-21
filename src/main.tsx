@@ -13,4 +13,17 @@ if ("serviceWorker" in navigator) {
     });
 }
 
+if (window.chrome?.runtime?.sendMessage) {
+  window.chrome.runtime.sendMessage(
+    "pfjfdpobjbkelgmnpgfncoigidcpdnik",
+    {},
+    (arg) => {
+      if (chrome.runtime.lastError) {
+        console.log("no ext detected!");
+      }
+      console.log(arg);
+    }
+  );
+}
+
 render(<App />, document.getElementById("app")!);

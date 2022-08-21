@@ -1,18 +1,27 @@
 {
-    "name": "tv-cors",
-    "version": "1.0",
-    "manifest_version": 3,
-    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjyiB0Din70DKmtzrEPTrwjN+7qn2ldg0S8X8LJA7VVJZ6tyqcYaO4gvhzHICVoUH7Y2B8UDAZ5NWfN1cgjJwhMqDs9MWL8G4nYDGZdsj8rF9sr+J2oF+uwXpqNOX8f6oqRvfxVcSUBSfaqwfe8f2y5rNurMuuxf+o3F692pHfVdzYU2s9XFfmN8TBeg4Lno5n9isRt2uZKEI6dOaSnNDQQDCL5J9f6UuUZexOBYXp6ys8azSnV9R/7xQ1LddvBqOQyKBts8PMIy/wbSKuec5ljZeRxNpibYq4Tak8pFY86vibfAHpUbAxcdo4liQTD+GuNRAxHkKBJfvDt60gE3A7QIDAQAB",
-    "declarative_net_request": {
-      "rule_resources": [
-        {
-          "id": "tv_cors_ruleset_1",
-          "enabled": true,
-          "path": "rules_1.json"
-        }
-      ]
-    },
-    "action": {},
-    "permissions": ["declarativeNetRequest", "declarativeNetRequestFeedback"],
-    "host_permissions": ["*://*/*"]
+  "name": "tv-cors",
+  "version": "1.0",
+  "manifest_version": 3,
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjyiB0Din70DKmtzrEPTrwjN+7qn2ldg0S8X8LJA7VVJZ6tyqcYaO4gvhzHICVoUH7Y2B8UDAZ5NWfN1cgjJwhMqDs9MWL8G4nYDGZdsj8rF9sr+J2oF+uwXpqNOX8f6oqRvfxVcSUBSfaqwfe8f2y5rNurMuuxf+o3F692pHfVdzYU2s9XFfmN8TBeg4Lno5n9isRt2uZKEI6dOaSnNDQQDCL5J9f6UuUZexOBYXp6ys8azSnV9R/7xQ1LddvBqOQyKBts8PMIy/wbSKuec5ljZeRxNpibYq4Tak8pFY86vibfAHpUbAxcdo4liQTD+GuNRAxHkKBJfvDt60gE3A7QIDAQAB",
+  "background": {
+    "service_worker": "./background.js"
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "tv_cors_ruleset_1",
+        "enabled": true,
+        "path": "rules_1.json"
+      }
+    ]
+  },
+  "action": {},
+  "permissions": ["declarativeNetRequest", "declarativeNetRequestFeedback"],
+  "host_permissions": ["*://*/*"],
+  "externally_connectable": {
+    "matches": [
+      "http://localhost/*",
+      "https://boisterous-hummingbird-13a395.netlify.app/*"
+    ]
   }
+}
