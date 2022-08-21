@@ -60,21 +60,22 @@ export function Video(
           //   console.log("loaded", args);
           const details = args[1].details;
           //   console.log(details.fragments.map((f) => f.url));
-          setTimeout(() => {
-            caches
-              .open("video")
-              .then((cache) => cache.keys())
-              .then((rs) => rs.map((r) => r.url))
-              .then((us) => {
-                //   console.log("us", us);
-                details.fragments.forEach((f) => {
-                  ![...us, ...pendingRequests.current].includes(f.url) &&
-                    fetch(f.url).catch((e) => {
-                      console.log(f.url, e, "fetch error");
-                    });
+          if (!video.paused)
+            setTimeout(() => {
+              caches
+                .open("video")
+                .then((cache) => cache.keys())
+                .then((rs) => rs.map((r) => r.url))
+                .then((us) => {
+                  //   console.log("us", us);
+                  details.fragments.forEach((f) => {
+                    ![...us, ...pendingRequests.current].includes(f.url) &&
+                      fetch(f.url).catch((e) => {
+                        console.log(f.url, e, "fetch error");
+                      });
+                  });
                 });
-              });
-          }, 500);
+            }, 500);
         });
         !hls.media && hls.attachMedia(video);
         hls.loadSource(src);
