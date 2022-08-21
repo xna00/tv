@@ -116,7 +116,7 @@ export function Video(
   return (
     <div
       ref={wrapperRef}
-      class="flex relative w-80% mx-auto"
+      class="flex relative mx-auto bg-black w-full"
       onMouseMove={showControler}
       onClick={showControler}
       {...wrapper}

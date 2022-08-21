@@ -10,8 +10,8 @@ li {
 
 #app {
   /* background: darkgray; */
-  display: flex;
-  flex-direction: row;
+  /* display: flex; */
+  /* flex-direction: row; */
   height: 100vh;
   overflow: hidden;
 }
@@ -32,4 +32,8 @@ li {
 .video-js {
   /* width: 100% !important; */
   /* height: 80% !important; */
+}
+
+:fullscreen {
+  color: white;
 }
