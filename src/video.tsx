@@ -116,9 +116,8 @@ export function Video(
   return (
     <div
       ref={wrapperRef}
-      class="flex inline-block relative w-full"
+      class="flex relative w-80% mx-auto"
       onMouseMove={showControler}
-      //   onTouchStart={showControler}
       onClick={showControler}
       {...wrapper}
     >
@@ -131,7 +130,7 @@ export function Video(
       ></video>
       {video ? (
         <div
-          class={`absolute bottom-0 w-full px-4 ${
+          class={`absolute bottom-0 w-full p-4 ${
             showExtra ? "flex" : "hidden"
           } justify-between`}
           onClick={() => setShowExtra(false)}
