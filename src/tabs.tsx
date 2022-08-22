@@ -37,7 +37,7 @@ const Tabs: FunctionComponent<{
                   console.log(args, child.key);
                   (onChange ?? setActiveKey)(child.key);
                 },
-                ref: _activeKey === child.key ? handle : null,
+                ref: (value ?? _activeKey) === child.key ? handle : null,
               })
             : child;
         })}

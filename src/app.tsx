@@ -19,6 +19,18 @@ export function App() {
     index: 0,
   });
   const [keyword, setKeyword] = useState("");
+  const [activeKey, setActiveKey] = useState(
+    (JSON.parse(localStorage.getItem(viewHistoryKey) ?? "[]") as string[])
+      .length
+      ? "1"
+      : "2"
+  );
+  const [dark, setDark] = useState(false);
+
+  useEffect(
+    () => document.body.classList[dark ? "add" : "remove"]("dark"),
+    [dark]
+  );
 
   useEffect(() => {
     fetch(import.meta.env.BASE_URL + "m3u.json")
@@ -48,15 +60,30 @@ export function App() {
   }, []);
 
   return (
-    <div class="h-full flex flex-col bg-#f5f5f5">
+    <div class="h-full flex flex-col bg-#f5f5f5 dark:bg-#111 dark:text-white transition-all">
       <header
-        class="px-6 py-4 lt-sm:hidden"
-        style={{ boxShadow: "0 2px 4px #00000014" }}
+        class="px-6 py-4 lt-sm:hidden flex justify-between items-center"
+        style={{
+          boxShadow: dark
+            ? "rgb(255 255 255 / 20%) 0px 2px 4px"
+            : "0 2px 4px #00000014",
+        }}
       >
         <img width={24} src={Logo} alt="" />
+        <div>
+          <button
+            class={`w-6 h-6 dark:bg-white ${
+              dark ? "i-tabler-sun" : "i-tabler-moon"
+            }`}
+            onClick={() => setDark(!dark)}
+          ></button>
+          <a href="https://github.com/xna00/tv" target="_blank">
+            <button class="i-tabler-brand-github dark:bg-white w-6 h-6 ml-2"></button>
+          </a>
+        </div>
       </header>
       <div class="flex-1 overflow-auto flex lt-sm:flex-col sm:px-18 sm:pt-4">
-        <main class="flex-grow-1 flex flex-col justify-start">
+        <main class="flex-grow-1 lt-sm:flex-grow-0 flex flex-col justify-start">
           <h2 class="mb-4 lt-sm:hidden">{current.name}</h2>
           <Video
             src={channels[current.name]?.[current.index]}
@@ -64,43 +91,61 @@ export function App() {
           />
         </main>
         <aside class="overflow-auto flex-shrink-0 lt-sm:flex-shrink-1 max-w-80 lt-sm:max-w-full sm:ml-12 lt-sm:px-3">
-          <Tabs>
-            <Tab key={1}>1</Tab>
-            <Tab key={2}>2</Tab>
-          </Tabs>
-          <input
-            type="search"
-            class="w-full my-2 text-base"
-            onChange={(e) => {
-              setKeyword((e.target as HTMLInputElement).value.trim());
+          <Tabs
+            value={activeKey}
+            onChange={(v) => {
+              console.log(v);
+              setActiveKey(v);
             }}
-          />
-          <ol>
-            {Object.entries(channels)
-              .filter(([k]) => new RegExp(keyword, "i").test(k))
-              .sort(([ak], [bk]) => {
-                const tmp = JSON.parse(
+          >
+            <Tab key={"1"}>最近</Tab>
+            <Tab key={"2"}>全部</Tab>
+          </Tabs>
+          {activeKey === "1" ? (
+            <ol>
+              {(
+                JSON.parse(
                   localStorage.getItem(viewHistoryKey) ?? "[]"
-                ) as string[];
-                const a = tmp.findIndex((t) => t === ak),
-                  b = tmp.findIndex((t) => t === bk);
-
-                return (
-                  (a === -1 ? Number.MAX_SAFE_INTEGER : a) -
-                    (b === -1 ? Number.MAX_SAFE_INTEGER : b) ||
-                  ak.localeCompare(bk)
-                );
-              })
-              .map(([k, v], i) => {
-                return (
-                  <li>
-                    <a href={`#${k}`} class="line-clamp-1" title={k}>
-                      {k}
-                    </a>
-                  </li>
-                );
-              })}
-          </ol>
+                ) as string[]
+              )
+                .map((h) => [h, channels[h]])
+                .map(([k, v], i) => {
+                  return (
+                    <li>
+                      <a href={`#${k}`} class="line-clamp-1" title={k}>
+                        {k}
+                      </a>
+                    </li>
+                  );
+                })}
+            </ol>
+          ) : (
+            <>
+              <input
+                type="search"
+                class="w-full my-2 text-base"
+                onChange={(e) => {
+                  setKeyword((e.target as HTMLInputElement).value.trim());
+                }}
+              />
+              <ol>
+                {Object.entries(channels)
+                  .filter(([k]) => new RegExp(keyword, "i").test(k))
+                  .sort(([ak], [bk]) => {
+                    return ak.localeCompare(bk);
+                  })
+                  .map(([k, v], i) => {
+                    return (
+                      <li>
+                        <a href={`#${k}`} class="line-clamp-1" title={k}>
+                          {k}
+                        </a>
+                      </li>
+                    );
+                  })}
+              </ol>
+            </>
+          )}
         </aside>
       </div>
 

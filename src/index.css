@@ -37,3 +37,7 @@ li {
 :fullscreen {
   color: white;
 }
+
+button {
+  cursor: pointer;
+}
