@@ -103,11 +103,11 @@ export function Video(
 
   useEffect(() => {
     navigator.serviceWorker?.addEventListener("message", (event) => {
-      console.log("video data", event.data);
+      // console.log("video data", event.data);
       if (event.data.pendingRequests) {
-        console.log("video", event);
+        // console.log("video", event);
         pendingRequests.current = event.data.pendingRequests ?? [];
-        console.log(pendingRequests.current);
+        // console.log(pendingRequests.current);
       }
     });
     // console.log(chrome, caches);

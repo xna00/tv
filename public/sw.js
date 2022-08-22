@@ -6,7 +6,7 @@ let callbackId = 1;
 const callbackMap = new Map();
 
 const extProxyFetch = (request) => {
-  console.log(callbackMap);
+  // console.log(callbackMap);
   return new Promise((resolve, reject) => {
     self.clients.matchAll().then((all) => {
       const first = all[0];
@@ -34,7 +34,7 @@ self.addEventListener("fetch", (event) => {
   const url = event.request.url;
   const { host, pathname } = new URL(url);
   const request = event.request;
-  console.log(url, pathname, pendingRequests);
+  // console.log(url, pathname, pendingRequests);
   event.respondWith(
     !pathname.startsWith("/proxy/")
       ? caches.match(event.request).then((res) => {
@@ -120,7 +120,7 @@ self.addEventListener("fetch", (event) => {
 });
 
 self.addEventListener("message", (event) => {
-  console.log(event, "message");
+  // console.log(event, "message");
   const id = event.data.callbackId;
   if (callbackMap.has(id)) {
     callbackMap.get(id)(event.data);

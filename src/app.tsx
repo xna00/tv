@@ -5,6 +5,7 @@ console.log("logo", Logo);
 
 // import "video.js/dist/video-js.css";
 import { Video } from "./video";
+import { Tab, Tabs } from "./tabs";
 
 type Channels = Record<string, string[]>;
 
@@ -23,6 +24,7 @@ export function App() {
     fetch(import.meta.env.BASE_URL + "m3u.json")
       .then((r) => r.json())
       .then((r: Channels) => {
+        console.log("chans", r);
         Object.entries(r).forEach(([k, v]) => {
           r[k] = v.map((a) => `/proxy/${a}`);
         });
@@ -62,6 +64,10 @@ export function App() {
           />
         </main>
         <aside class="overflow-auto flex-shrink-0 lt-sm:flex-shrink-1 max-w-80 lt-sm:max-w-full sm:ml-12 lt-sm:px-3">
+          <Tabs>
+            <Tab key={1}>1</Tab>
+            <Tab key={2}>2</Tab>
+          </Tabs>
           <input
             type="search"
             class="w-full my-2 text-base"

@@ -10,7 +10,7 @@ if ("serviceWorker" in navigator) {
     })
     .then(() => {
       navigator.serviceWorker?.addEventListener("message", (event) => {
-        console.log(event);
+        // console.log(event);
         if (event.data.callbackId) {
           (window as any).chrome.runtime.sendMessage(
             "pfjfdpobjbkelgmnpgfncoigidcpdnik",
