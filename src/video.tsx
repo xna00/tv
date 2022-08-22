@@ -130,7 +130,7 @@ export function Video(
       ></video>
       {video ? (
         <div
-          class={`absolute bottom-0 w-full p-4 ${
+          class={`absolute bottom-0 w-full p-4 bg-black bg-opacity-60 ${
             showExtra ? "flex" : "hidden"
           } justify-between`}
           onClick={() => setShowExtra(false)}
