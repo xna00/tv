@@ -6,31 +6,40 @@ console.log("logo", Logo);
 // import "video.js/dist/video-js.css";
 import { Video } from "./video";
 import { Tab, Tabs } from "./tabs";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 type Channels = Record<string, string[]>;
 
-const parseName = () => decodeURI(location.hash).slice(1);
 const viewHistoryKey = "viewHistory";
 
 export function App() {
   const [channels, setChannels] = useState<Channels>({});
+
+  const [viewHistory, setViewHistory] = useLocalStorage<string[]>(
+    viewHistoryKey,
+    {
+      init: [],
+    }
+  );
   const [current, setCurrent] = useState({
-    name: parseName(),
+    name: viewHistory[0] || "",
     index: 0,
   });
   const [keyword, setKeyword] = useState("");
-  const [activeKey, setActiveKey] = useState(
-    (JSON.parse(localStorage.getItem(viewHistoryKey) ?? "[]") as string[])
-      .length
-      ? "1"
-      : "2"
-  );
+  const [activeKey, setActiveKey] = useState(viewHistory.length ? "1" : "2");
   const [dark, setDark] = useState(false);
+
+  console.log(current);
 
   useEffect(
     () => document.body.classList[dark ? "add" : "remove"]("dark"),
     [dark]
   );
+
+  useEffect(() => {
+    const { name } = current;
+    if (name) setViewHistory([name, ...viewHistory.filter((h) => h !== name)]);
+  }, [current.name]);
 
   useEffect(() => {
     fetch(import.meta.env.BASE_URL + "m3u.json")
@@ -41,21 +50,12 @@ export function App() {
           r[k] = v.map((a) => `/proxy/${a}`);
         });
         setChannels(r);
-        const handleHashChange = () => {
-          const name = parseName();
+        if (!current.name) {
           setCurrent({
-            name,
+            name: Object.keys(channels)[0],
             index: 0,
           });
-          const tmp = (
-            JSON.parse(localStorage.getItem(viewHistoryKey) ?? "[]") as string[]
-          ).filter((n) => n !== name);
-          tmp.unshift(name);
-          localStorage.setItem(viewHistoryKey, JSON.stringify(tmp));
-        };
-
-        // handleHashChange();
-        window.addEventListener("hashchange", handleHashChange);
+        }
       });
   }, []);
 
@@ -108,11 +108,21 @@ export function App() {
                   localStorage.getItem(viewHistoryKey) ?? "[]"
                 ) as string[]
               )
-                .map((h) => [h, channels[h]])
+                .map((h) => [h, channels[h]] as const)
                 .map(([k, v], i) => {
                   return (
                     <li>
-                      <a href={`#${k}`} class="line-clamp-1" title={k}>
+                      <a
+                        href={`#${k}`}
+                        class="line-clamp-1"
+                        title={k}
+                        onClick={() => {
+                          setCurrent({
+                            name: k,
+                            index: 0,
+                          });
+                        }}
+                      >
                         {k}
                       </a>
                     </li>
@@ -137,7 +147,17 @@ export function App() {
                   .map(([k, v], i) => {
                     return (
                       <li>
-                        <a href={`#${k}`} class="line-clamp-1" title={k}>
+                        <a
+                          href={`#${k}`}
+                          class="line-clamp-1"
+                          title={k}
+                          onClick={() => {
+                            setCurrent({
+                              name: k,
+                              index: 0,
+                            });
+                          }}
+                        >
                           {k}
                         </a>
                       </li>

@@ -3,16 +3,16 @@ import { useEffect, useRef } from "preact/hooks";
 export function InstallDialog() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   useEffect(() => {
-    if ((window as any).chrome?.runtime?.sendMessage) {
-      (window as any).chrome.runtime.sendMessage(
+    if (window.chrome?.runtime?.sendMessage) {
+      window.chrome.runtime.sendMessage(
         "pfjfdpobjbkelgmnpgfncoigidcpdnik",
         {},
-        (arg: any) => {
-          if ((window as any).chrome.runtime.lastError) {
+        (arg) => {
+          if (window.chrome.runtime.lastError) {
             console.log("no ext detected!");
             const dia = dialogRef.current;
             if (dia) {
-              dia.showModal();
+              (dia as any).showModal();
             }
           }
           console.log(arg);

@@ -14,7 +14,7 @@ const Tabs: FunctionComponent<{
   onChange?: (v: string) => void;
 }> = ({ children, value, onChange }) => {
   const [_activeKey, setActiveKey] = useState(
-    value ?? toChildArray(children)?.[0]?.key
+    value ?? (toChildArray(children)?.[0] as any)?.key
   );
   const indicatorRef = useRef(null);
   console.log("tabs", _activeKey);
