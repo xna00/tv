@@ -62,24 +62,22 @@ export function Video(
           //   console.log(details.fragments.map((f) => f.url));
           if (!video.paused)
             setTimeout(() => {
-              caches
-                .open("video")
-                .then((cache) => cache.keys())
-                .then((rs) => rs.map((r) => r.url))
-                .then((us) => {
-                  //   console.log("us", us);
-                  details.fragments.forEach((f) => {
-                    ![...us, ...pendingRequests.current].includes(f.url) &&
-                      fetch(f.url).catch((e) => {
-                        console.log(f.url, e, "fetch error");
-                      });
+              //   console.log("us", us);
+              details.fragments.forEach((f) => {
+                if (!pendingRequests.current.includes(f.url)) {
+                  fetch(f.url).catch((e) => {
+                    console.log(f.url, e, "fetch error");
                   });
-                });
+                  pendingRequests.current = [
+                    f.url,
+                    ...pendingRequests.current,
+                  ].slice(0, 100);
+                }
+              });
             }, 500);
         });
         !hls.media && hls.attachMedia(video);
         hls.loadSource(src);
-        // hls.
       } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
         console.log("video");
         video.src = src;
@@ -106,7 +104,7 @@ export function Video(
       // console.log("video data", event.data);
       if (event.data.pendingRequests) {
         // console.log("video", event);
-        pendingRequests.current = event.data.pendingRequests ?? [];
+        // pendingRequests.current = event.data.pendingRequests ?? [];
         // console.log(pendingRequests.current);
       }
     });
