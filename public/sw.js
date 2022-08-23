@@ -10,8 +10,9 @@ const extProxyFetch = (request) => {
   return new Promise((resolve, reject) => {
     self.clients.matchAll().then((all) => {
       const first = all[0];
-      if (!first) resolve();
+      if (!first) reject();
       else {
+        const cid = callbackId;
         callbackMap.set(callbackId, (res) => {
           const r = new Response(new Uint8Array(res.body).buffer, res.init);
           resolve(r);
@@ -25,6 +26,12 @@ const extProxyFetch = (request) => {
             // body:
           },
         });
+        setTimeout(() => {
+          if (callbackMap.get(cid)) {
+            callbackMap.delete(cid);
+            reject();
+          }
+        }, 60000);
       }
     });
   });
@@ -51,7 +58,7 @@ self.addEventListener("fetch", (event) => {
               response ??
               (pathname.startsWith("/proxy")
                 ? extProxyFetch(
-                    new Request(pathname.replace("/proxy/", ""), request)
+                    new Request(url.replace(/^.+\/proxy\//, ""), request)
                   )
                 : fetch(event.request)
               )
