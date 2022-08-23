@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@iconify-json/tabler': ^1.1.25
   '@preact/preset-vite': ^2.1.5
+  '@types/chrome': ^0.0.195
   '@unocss/preset-icons': ^0.45.8
   '@unocss/preset-uno': ^0.45.8
   axios: ^0.27.2
@@ -20,6 +21,7 @@ dependencies:
 devDependencies:
   '@iconify-json/tabler': registry.npmmirror.com/@iconify-json/tabler/1.1.25
   '@preact/preset-vite': registry.npmmirror.com/@preact/preset-vite/2.2.0_preact@10.7.1+vite@2.9.8
+  '@types/chrome': registry.npmmirror.com/@types/chrome/0.0.195
   '@unocss/preset-icons': registry.npmmirror.com/@unocss/preset-icons/0.45.8
   '@unocss/preset-uno': registry.npmmirror.com/@unocss/preset-uno/0.45.8
   axios: registry.npmmirror.com/axios/0.27.2
@@ -511,6 +513,35 @@ packages:
     dependencies:
       estree-walker: registry.npmmirror.com/estree-walker/2.0.2
       picomatch: registry.npmmirror.com/picomatch/2.3.1
+    dev: true
+
+  registry.npmmirror.com/@types/chrome/0.0.195:
+    resolution: {integrity: sha512-kmFh1xx7ehXoOVl6OjEBxmiYaquhxCaILjFGwPbW6xwbqzwDKCte+Mzl99aNWg3EP1B4rKVUuRm1vBsiRYks5g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/chrome/-/chrome-0.0.195.tgz}
+    name: '@types/chrome'
+    version: 0.0.195
+    dependencies:
+      '@types/filesystem': registry.npmmirror.com/@types/filesystem/0.0.32
+      '@types/har-format': registry.npmmirror.com/@types/har-format/1.2.8
+    dev: true
+
+  registry.npmmirror.com/@types/filesystem/0.0.32:
+    resolution: {integrity: sha512-Yuf4jR5YYMR2DVgwuCiP11s0xuVRyPKmz8vo6HBY3CGdeMj8af93CFZX+T82+VD1+UqHOxTq31lO7MI7lepBtQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/filesystem/-/filesystem-0.0.32.tgz}
+    name: '@types/filesystem'
+    version: 0.0.32
+    dependencies:
+      '@types/filewriter': registry.npmmirror.com/@types/filewriter/0.0.29
+    dev: true
+
+  registry.npmmirror.com/@types/filewriter/0.0.29:
+    resolution: {integrity: sha512-BsPXH/irW0ht0Ji6iw/jJaK8Lj3FJemon2gvEqHKpCdDCeemHa+rI3WBGq5z7cDMZgoLjY40oninGxqk+8NzNQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/filewriter/-/filewriter-0.0.29.tgz}
+    name: '@types/filewriter'
+    version: 0.0.29
+    dev: true
+
+  registry.npmmirror.com/@types/har-format/1.2.8:
+    resolution: {integrity: sha512-OP6L9VuZNdskgNN3zFQQ54ceYD8OLq5IbqO4VK91ORLfOm7WdT/CiT/pHEBSQEqCInJ2y3O6iCm/zGtPElpgJQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/har-format/-/har-format-1.2.8.tgz}
+    name: '@types/har-format'
+    version: 1.2.8
     dev: true
 
   registry.npmmirror.com/@unocss/cli/0.45.8:

@@ -14,6 +14,7 @@
   "devDependencies": {
     "@iconify-json/tabler": "^1.1.25",
     "@preact/preset-vite": "^2.1.5",
+    "@types/chrome": "^0.0.195",
     "@unocss/preset-icons": "^0.45.8",
     "@unocss/preset-uno": "^0.45.8",
     "axios": "^0.27.2",
