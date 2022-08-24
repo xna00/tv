@@ -27,14 +27,13 @@ export function App() {
   });
   const [keyword, setKeyword] = useState("");
   const [activeKey, setActiveKey] = useState(viewHistory.length ? "1" : "2");
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useLocalStorage("darkMode", {
+    init: false,
+    parser: (a) => a === "true",
+    stringfy: String,
+  });
 
-  console.log(current);
-
-  useEffect(
-    () => document.body.classList[dark ? "add" : "remove"]("dark"),
-    [dark]
-  );
+  document.body.classList[dark ? "add" : "remove"]("dark");
 
   useEffect(() => {
     const { name } = current;
@@ -52,7 +51,7 @@ export function App() {
         setChannels(r);
         if (!current.name) {
           setCurrent({
-            name: Object.keys(channels)[0],
+            name: Object.keys(r)[0],
             index: 0,
           });
         }
