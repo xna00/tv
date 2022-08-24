@@ -7,7 +7,7 @@ const ChromeExtension = require("crx");
 
 const crx = new ChromeExtension({
   codebase: "https://simple-tv.netlify.app/ext/tv_helper.crx",
-  privateKey: fs.readFileSync(path.resolve(__dirname, "../public/ext/key.pem")),
+  privateKey: fs.readFileSync(path.resolve(__dirname, "./key.pem")),
 });
 
 crx
