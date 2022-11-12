@@ -56,6 +56,12 @@ export function InstallDialog() {
       >
         点击下载
       </button>
+      <a href="/ext/tv_helper.zip" download>
+        下载zip
+      </a>
+      <a href="/ext/tv_helper.crx" download>
+        下载crx
+      </a>
     </dialog>
   );
 }
