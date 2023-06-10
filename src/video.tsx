@@ -1,33 +1,37 @@
-import Hls, { HlsConfig } from "hls.js";
-import { FunctionComponent, JSX, VNode } from "preact";
-import { useEffect, useRef, useState } from "preact/hooks";
+import Hls, {
+  HlsConfig,
+  LoaderCallbacks,
+  LoaderConfiguration,
+  LoaderContext,
+} from "hls.js";
+import { FunctionComponent, JSX, ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function process(playlist: any) {
   console.log("playlist is:", playlist);
   return playlist;
 }
 
-class pLoader extends Hls.DefaultConfig.loader {
+class loader extends Hls.DefaultConfig.loader {
   constructor(config: HlsConfig) {
     console.log("ploader");
     super(config);
-    var load = this.load.bind(this);
-    this.load = function (context, config, callbacks) {
-      var onSuccess = callbacks.onSuccess;
-      console.log(context, config, callbacks);
-      callbacks.onSuccess = function (response, stats, context, net) {
-        response.data = process(response.data);
-        onSuccess(response, stats, context, net);
-      };
-      load(context, config, callbacks);
-    };
   }
+  load(
+    context: LoaderContext,
+    config: LoaderConfiguration,
+    callbacks: LoaderCallbacks<LoaderContext>
+  ): void {
+    
+  }
+  abort(): void {}
+  destroy(): void {}
 }
 
 export function Video(
   props: JSX.IntrinsicElements["video"] & {
-    control?: VNode;
-    extra?: VNode;
+    control?: ReactNode;
+    extra?: ReactNode;
     wrapper?: JSX.IntrinsicElements["div"];
   }
 ) {
@@ -114,27 +118,27 @@ export function Video(
   return (
     <div
       ref={wrapperRef}
-      class="flex relative mx-auto bg-black w-full"
+      className="flex relative mx-auto bg-black w-full"
       onMouseMove={showControler}
       onClick={showControler}
       {...wrapper}
     >
-      <div class="absolute">{showExtra ? extra : null}</div>
+      <div className="absolute">{showExtra ? extra : null}</div>
       <video
         ref={videoRef}
         onLoadedData={() => videoRef.current?.play().catch(() => null)}
-        class="w-full"
+        className="w-full"
         {...rest}
       ></video>
       {video ? (
         <div
-          class={`absolute bottom-0 w-full p-4 bg-black bg-opacity-60 ${
+          className={`absolute bottom-0 w-full p-4 bg-black bg-opacity-60 ${
             showExtra ? "flex" : "hidden"
           } justify-between`}
           onClick={() => setShowExtra(false)}
         >
           <button
-            class={`text-white cursor-pointer text-2xl ${
+            className={`text-white cursor-pointer text-2xl ${
               video.paused ? "i-tabler-player-play" : "i-tabler-player-pause"
             }`}
             onClick={() =>
@@ -145,7 +149,7 @@ export function Video(
           ></button>
           {control}
           <button
-            class={`text-white cursor-pointer text-2xl ${
+            className={`text-white cursor-pointer text-2xl ${
               document.fullscreenElement
                 ? "i-tabler-arrows-minimize"
                 : "i-tabler-arrows-maximize"

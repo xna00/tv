@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "preact/hooks";
+import { useEffect, useRef } from "react";
 
 export function InstallDialog() {
   const dialogRef = useRef<HTMLDialogElement>(null);

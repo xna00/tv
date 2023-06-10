@@ -8,20 +8,24 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "hls.js": "^1.1.5",
-    "preact": "^10.5.15"
+    "hls.js": "^1.4.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@iconify-json/tabler": "^1.1.25",
-    "@preact/preset-vite": "^2.1.5",
     "@types/chrome": "^0.0.195",
+    "@types/colors": "^1.2.1",
+    "@types/react": "^18.2.10",
+    "@types/react-dom": "^18.2.4",
     "@unocss/preset-icons": "^0.45.8",
     "@unocss/preset-uno": "^0.45.8",
+    "@vitejs/plugin-react": "^4.0.0",
     "axios": "^0.27.2",
     "colors": "^1.4.0",
     "crx": "^5.0.1",
-    "typescript": "^4.5.4",
+    "typescript": "^5.1.3",
     "unocss": "^0.45.8",
-    "vite": "^2.9.7"
+    "vite": "^4.3.9"
   }
 }

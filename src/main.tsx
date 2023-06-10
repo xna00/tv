@@ -1,4 +1,4 @@
-import { render } from "preact";
+import { createRoot } from "react-dom/client";
 import { App } from "./app";
 import "./index.css";
 import "uno.css";
@@ -12,16 +12,7 @@ if ("serviceWorker" in navigator) {
       navigator.serviceWorker?.addEventListener("message", (event) => {
         // console.log(event);
         if (event.data.callbackId) {
-          (window as any).chrome.runtime.sendMessage(
-            "pfjfdpobjbkelgmnpgfncoigidcpdnik",
-            event.data,
-            (res: any) => {
-              navigator.serviceWorker?.controller?.postMessage({
-                ...res,
-                ...event.data,
-              });
-            }
-          );
+          
         }
       });
 
@@ -31,6 +22,4 @@ if ("serviceWorker" in navigator) {
     });
 }
 
-
-
-render(<App />, document.getElementById("app")!);
+createRoot(document.getElementById("app")!).render(<App />);

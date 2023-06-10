@@ -4,17 +4,19 @@ import {
   FunctionComponent,
   isValidElement,
   JSX,
-  toChildArray,
-} from "preact";
-import { useCallback, useMemo, useRef, useState } from "preact/hooks";
-import { Children, ForwardFn, forwardRef } from "preact/compat";
+  PropsWithChildren,
+} from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { Children, forwardRef } from "react";
 
-const Tabs: FunctionComponent<{
-  value?: string;
-  onChange?: (v: string) => void;
-}> = ({ children, value, onChange }) => {
+const Tabs: FunctionComponent<
+  PropsWithChildren<{
+    value?: string;
+    onChange?: (v: string) => void;
+  }>
+> = ({ children, value, onChange }) => {
   const [_activeKey, setActiveKey] = useState(
-    value ?? (toChildArray(children)?.[0] as any)?.key
+    value ?? (Children.toArray(children)[0] as any)?.key
   );
   const indicatorRef = useRef(null);
   console.log("tabs", _activeKey);
@@ -29,7 +31,7 @@ const Tabs: FunctionComponent<{
 
   return (
     <div>
-      <div class="flex">
+      <div className="flex">
         {Children.map(children, (child) => {
           return isValidElement(child)
             ? cloneElement(child, {
@@ -42,10 +44,10 @@ const Tabs: FunctionComponent<{
             : child;
         })}
       </div>
-      <div class="h-1 relative">
+      <div className="h-1 relative">
         <div
           ref={indicatorRef}
-          class="absolute top-0 bottom-0 bg-pink rounded transition-all"
+          className="absolute top-0 bottom-0 bg-pink rounded transition-all"
           style={{ left: (div?.offsetLeft ?? 0) - 12, width: div?.offsetWidth }}
         ></div>
       </div>

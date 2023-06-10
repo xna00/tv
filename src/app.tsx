@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "preact/hooks";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { InstallDialog } from "./installDialog";
 import Logo from "./icon.svg";
 console.log("logo", Logo);
@@ -59,9 +59,9 @@ export function App() {
   }, []);
 
   return (
-    <div class="h-full flex flex-col bg-#f5f5f5 dark:bg-#111 dark:text-white transition-all">
+    <div className="h-full flex flex-col bg-#f5f5f5 dark:bg-#111 dark:text-white transition-all">
       <header
-        class="px-6 py-4 lt-sm:hidden flex justify-between items-center"
+        className="px-6 py-4 lt-sm:hidden flex justify-between items-center"
         style={{
           boxShadow: dark
             ? "rgb(255 255 255 / 20%) 0px 2px 4px"
@@ -71,25 +71,25 @@ export function App() {
         <img width={24} src={Logo} alt="" />
         <div>
           <button
-            class={`w-6 h-6 dark:bg-white ${
+            className={`w-6 h-6 dark:bg-white ${
               dark ? "i-tabler-sun" : "i-tabler-moon"
             }`}
             onClick={() => setDark(!dark)}
           ></button>
           <a href="https://github.com/xna00/tv" target="_blank">
-            <button class="i-tabler-brand-github dark:bg-white w-6 h-6 ml-2"></button>
+            <button className="i-tabler-brand-github dark:bg-white w-6 h-6 ml-2"></button>
           </a>
         </div>
       </header>
-      <div class="flex-1 overflow-auto flex lt-sm:flex-col sm:px-18 sm:pt-4">
-        <main class="flex-grow-1 lt-sm:flex-grow-0 flex flex-col justify-start">
-          <h2 class="mb-4 lt-sm:hidden">{current.name}</h2>
+      <div className="flex-1 overflow-auto flex lt-sm:flex-col sm:px-18 sm:pt-4">
+        <main className="flex-grow-1 lt-sm:flex-grow-0 flex flex-col justify-start">
+          <h2 className="mb-4 lt-sm:hidden">{current.name}</h2>
           <Video
             src={channels[current.name]?.[current.index]}
             extra={<h4>{current.name}</h4>}
           />
         </main>
-        <aside class="overflow-auto flex-shrink-0 lt-sm:flex-shrink-1 max-w-80 lt-sm:max-w-full sm:ml-12 lt-sm:px-3">
+        <aside className="overflow-auto flex-shrink-0 lt-sm:flex-shrink-1 max-w-80 lt-sm:max-w-full sm:ml-12 lt-sm:px-3">
           <Tabs
             value={activeKey}
             onChange={(v) => {
@@ -113,7 +113,7 @@ export function App() {
                     <li>
                       <a
                         href={`#${k}`}
-                        class="line-clamp-1"
+                        className="line-clamp-1"
                         title={k}
                         onClick={() => {
                           setCurrent({
@@ -132,7 +132,7 @@ export function App() {
             <>
               <input
                 type="search"
-                class="w-full my-2 text-base"
+                className="w-full my-2 text-base"
                 onChange={(e) => {
                   setKeyword((e.target as HTMLInputElement).value.trim());
                 }}
@@ -148,7 +148,7 @@ export function App() {
                       <li>
                         <a
                           href={`#${k}`}
-                          class="line-clamp-1"
+                          className="line-clamp-1"
                           title={k}
                           onClick={() => {
                             setCurrent({
