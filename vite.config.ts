@@ -1,5 +1,4 @@
 import { defineConfig, splitVendorChunkPlugin } from "vite";
-import preact from "@preact/preset-vite";
 import Unocss from "unocss/vite";
 import presetUno from "@unocss/preset-uno";
 import presetIcons from "@unocss/preset-icons";

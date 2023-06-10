@@ -2,7 +2,7 @@ const fs = require("fs");
 const { default: axios } = require("axios");
 require("colors");
 
-const m3uDir = "./m3u/m3u/";
+const m3uDir = "./new/";
 
 const m3us = fs.readdirSync(m3uDir);
 const data = {};

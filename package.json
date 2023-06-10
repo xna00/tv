@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && ./scripts/afterbuild.sh",
+    "build": "cd extension; tsc; cd ..; cp -r extension ./public/ext; tsc && vite build && ./scripts/afterbuild.sh",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -26,6 +26,7 @@
     "crx": "^5.0.1",
     "typescript": "^5.1.3",
     "unocss": "^0.45.8",
-    "vite": "^4.3.9"
+    "vite": "^4.3.9",
+    "extension": "workspace:*"
   }
 }

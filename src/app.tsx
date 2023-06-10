@@ -45,9 +45,6 @@ export function App() {
       .then((r) => r.json())
       .then((r: Channels) => {
         console.log("chans", r);
-        Object.entries(r).forEach(([k, v]) => {
-          r[k] = v.map((a) => `/proxy/${a}`);
-        });
         setChannels(r);
         if (!current.name) {
           setCurrent({
@@ -110,8 +107,9 @@ export function App() {
                 .map((h) => [h, channels[h]] as const)
                 .map(([k, v], i) => {
                   return (
-                    <li>
+                    <li key={k} title={v?.toString()}>
                       <a
+                        key={k}
                         href={`#${k}`}
                         className="line-clamp-1"
                         title={k}

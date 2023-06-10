@@ -6,7 +6,7 @@ export function InstallDialog() {
     if (window.chrome?.runtime?.sendMessage) {
       window.chrome.runtime.sendMessage(
         "pfjfdpobjbkelgmnpgfncoigidcpdnik",
-        {},
+        { method: "getVersion" },
         (arg) => {
           if (window.chrome.runtime.lastError) {
             console.log("no ext detected!");

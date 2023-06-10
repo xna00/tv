@@ -19,13 +19,10 @@ const Tabs: FunctionComponent<
     value ?? (Children.toArray(children)[0] as any)?.key
   );
   const indicatorRef = useRef(null);
-  console.log("tabs", _activeKey);
   const [div, setDiv] = useState<HTMLDivElement | null>(null);
 
   const handle = useCallback((div: HTMLDivElement | null) => {
-    console.log("ref2", div);
     if (!div) return;
-    console.log("in", div.offsetLeft, div.offsetWidth);
     setDiv(div);
   }, []);
 
@@ -36,11 +33,12 @@ const Tabs: FunctionComponent<
           return isValidElement(child)
             ? cloneElement(child, {
                 onClick: function (...args: any) {
-                  console.log(args, child.key);
-                  (onChange ?? setActiveKey)(child.key);
+                  if (child.key) {
+                    (onChange ?? setActiveKey)(child.key.toString());
+                  }
                 },
                 ref: (value ?? _activeKey) === child.key ? handle : null,
-              })
+              } as any)
             : child;
         })}
       </div>
@@ -56,7 +54,6 @@ const Tabs: FunctionComponent<
 };
 export const Tab = forwardRef<HTMLDivElement, JSX.IntrinsicElements["div"]>(
   (props, ref) => {
-    console.log("ref", ref);
     const { className, ...rest } = props;
     return (
       <div

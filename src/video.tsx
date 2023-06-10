@@ -3,9 +3,14 @@ import Hls, {
   LoaderCallbacks,
   LoaderConfiguration,
   LoaderContext,
+  LoadStats,
 } from "hls.js";
 import { FunctionComponent, JSX, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
+import { extFetch } from "./utils";
+extFetch("https://www.baidu.com/").then((res) => res.text());
+// .then(console.log);
+// url.replace(/^.+\/proxy\//, "")
 
 function process(playlist: any) {
   console.log("playlist is:", playlist);
@@ -22,10 +27,48 @@ class loader extends Hls.DefaultConfig.loader {
     config: LoaderConfiguration,
     callbacks: LoaderCallbacks<LoaderContext>
   ): void {
-    
+    const start = Date.now();
+    extFetch(context.url.replace(/^.*\/proxy\//, ""))
+      .then((res): Promise<string | ArrayBuffer> => {
+        return context.responseType === "text" ? res.text() : res.arrayBuffer();
+      })
+      .then((res) => {
+        console.log(res);
+        const len = typeof res === "string" ? res.length : res.byteLength;
+        callbacks.onSuccess(
+          {
+            url: context.url,
+            data: res,
+            code: 200,
+          },
+          {
+            ...this.stats,
+            aborted: false,
+            loaded: len,
+            retry: 0,
+            total: len,
+            bwEstimate: (len * 8000) / (Date.now() - start),
+            // chunkCount: 0,
+            // loading: {
+            //   first: 0,
+            //   end: 0,
+            //   start: 0,
+            // },
+            // parsing: {
+            //   start: 0,
+            //   end: 0,
+            // },
+            // buffering: {
+            //   first: 0,
+            //   end: 0,
+            //   start: 0,
+            // },
+          },
+          context,
+          null
+        );
+      });
   }
-  abort(): void {}
-  destroy(): void {}
 }
 
 export function Video(
@@ -43,7 +86,6 @@ export function Video(
   const timer = useRef<number>();
   const hlsRef = useRef<Hls>();
   const pendingRequests = useRef<string[]>([]);
-  console.log("current", hlsRef.current);
 
   const showControler = () => {
     setShowExtra(true);
@@ -57,28 +99,25 @@ export function Video(
         console.log("hls");
         hlsRef.current?.destroy();
         const hls = (hlsRef.current = new Hls({
-          //   debug: true,
+          debug: true,
           //   pLoader: pLoader as any,
+          loader,
+          enableWorker: true,
         }));
         hls.on(Hls.Events.LEVEL_LOADED, (...args) => {
           //   console.log("loaded", args);
           const details = args[1].details;
           //   console.log(details.fragments.map((f) => f.url));
-          if (!video.paused)
+          if (!video.paused) {
             setTimeout(() => {
               //   console.log("us", us);
               details.fragments.forEach((f) => {
                 if (!pendingRequests.current.includes(f.url)) {
-                  fetch(f.url).catch((e) => {
-                    console.log(f.url, e, "fetch error");
-                  });
-                  pendingRequests.current = [
-                    f.url,
-                    ...pendingRequests.current,
-                  ].slice(0, 100);
+                  extFetch(f.url);
                 }
               });
             }, 500);
+          }
         });
         !hls.media && hls.attachMedia(video);
         hls.loadSource(src);
